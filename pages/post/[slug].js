@@ -12,6 +12,7 @@ const PostDetails = ({post}) => {
           <Author author={post.author} />
           <CommentsForm slug={post.slug}/>
           <Comments slug={post.slug} />
+          here
         </div>
         <div className="col-span-1 lg:col-span-4">
           <div className="relative lg:sticky top-8">

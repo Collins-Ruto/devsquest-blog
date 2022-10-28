@@ -1,43 +1,61 @@
 import React, { useState, useEffect, useRef } from "react";
+import { submitComment } from "../services";
 
 const CommentsForm = ({ slug }) => {
   const [error, setError] = useState(false);
   const [localStorage, setLocalStorage] = useState(null);
-  const [shoeSuccessMessage, setShoeSuccessMessage] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const commentEl = useRef();
   const nameEl = useRef();
   const emailEl = useRef();
   const storeDataEl = useRef();
 
+  useEffect(() => {
+    nameEl.current.value = window.localStorage.getItem("name");
+    emailEl.current.value = window.localStorage.getItem("email");
+  }, []);
+
   const handleCommentSubmission = () => {
     setError(false);
 
-    const {value: comment} = commentEl.current;
-    const {value: name} = El.current;
-    const {value: email} = emailEl.current;
-    const {checked: storeData} = storeDataEl.current;
+    const { value: comment } = commentEl.current;
+    const { value: name } = nameEl.current;
+    const { value: email } = emailEl.current;
+    const { checked: storeData } = storeDataEl.current;
 
-    if (!commentEl || !nameEl || !emailEl) {
-      setError(true)
+    if (!comment || !name || !email) {
+      setError(true);
       return;
     }
 
+    const commentObj = {
+      name,
+      email,
+      comment,
+      slug,
+    };
+
     if (storeData) {
-      localStorage.setItem('name', name)
-      localStorage.setItem('email', email)
+      window.localStorage.setItem("name", name);
+      window.localStorage.setItem("email", email);
     } else {
-      localStorage.removeItem("name", name);
-      localStorage.removeItem("email", email);
+      window.localStorage.removeItem("name", name);
+      window.localStorage.removeItem("email", email);
     }
 
-    const commentObj = {
-      name, email, comment, slug
-    }
+    submitComment(commentObj).then((res) => {
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
+    });
   };
 
   return (
     <div className="bg-white shadow-lg rounded-lg p-8 pb-12 mb-8">
-      <h3 className="text-xl mb-8 font-semibold pb-4 border-b"></h3>
+      <h3 className="text-xl mb-8 font-semibold pb-4 border-b">
+        Leave a Reply
+      </h3>
       <div className="grid grid-cols-1 gap-4 mb-4">
         <textarea
           name="comment"
@@ -67,9 +85,18 @@ const CommentsForm = ({ slug }) => {
       </div>
       <div className="grid grid-cols-1 gap-4 mb-4">
         <div className="container">
-          <input type="checkbox" id="storeData" name="storeData" ref={storeDataEl} >
-            <label className="cursor-pointer text-gray-500 ml-2">Save my name and email for the next time I comment</label>
-          </input>
+          <input
+            type="checkbox"
+            id="storeData"
+            name="storeData"
+            ref={storeDataEl}
+          ></input>
+          <label
+            htmlFor="storeData"
+            className="cursor-pointer text-gray-500 ml-2"
+          >
+            Save my name and email for the next time I comment
+          </label>
         </div>
       </div>
       {error && <p className="text-xs text-red-500">All fields are required</p>}
@@ -81,7 +108,7 @@ const CommentsForm = ({ slug }) => {
         >
           Post Comment
         </button>
-        {showSucessMessage && (
+        {showSuccessMessage && (
           <span className="mt-3 text-green-500 text-xl float-right font-semibold">
             comment submitted for review
           </span>

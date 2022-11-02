@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import moment from "moment";
+import Link from "next/link";
+import { getRecentPosts } from "../services";
 
-const PostWidget = () => {
-  return (
-    <div>
-        PostWidget
-    </div>
-  )
-}
+const PostWidget = ({ categories, slug }) => {
+  const [relatedPosts, setRelatedPosts] = useState([]);
 
-export default PostWidget
+  useEffect(() => {
+    if (slug) {
+      getSimilarPosts(category, slug).then((result) => setRelatedPosts(result));
+    } else {
+      getRecentPosts().then((result) => setRelatedPosts(result));
+    }
+  }, [third]);
+
+  return <div>PostWidget</div>;
+};
+
+export default PostWidget;

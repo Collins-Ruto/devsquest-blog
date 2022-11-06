@@ -29,10 +29,10 @@ const CommentsForm = ({ slug }) => {
     }
 
     const commentObj = {
-      name,
       email,
-      comment,
+      name,
       slug,
+      comment,
     };
 
     if (storeData) {

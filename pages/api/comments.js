@@ -12,10 +12,18 @@ export default async function comments(req, res) {
     },
   });
   const query = gql`
-    mutation CreateComment($name: String!, $email: String!, $comment: String!, $slug: String!
+    mutation CreateComment(
+      $name: String!
+      $email: String!
+      $comment: String!
+      $slug: String!
     ) {
       createComment(
-        data: { name: $name, email: $email, comment: $comment, post: { connect: { slug: $slug } }
+        data: {
+          name: $name
+          email: $email
+          comment: $comment
+          post: { connect: { slug: $slug } }
         }
       ) {
         id
@@ -25,7 +33,7 @@ export default async function comments(req, res) {
 
   try {
     const result = await graphQLClient.request(query, req.body);
- 
+
     return res.status(200).send(result);
   } catch (error) {
     console.log(error);

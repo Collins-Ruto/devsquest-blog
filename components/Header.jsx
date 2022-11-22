@@ -44,7 +44,7 @@ const Header = () => {
       </div>
       {opened && 
       <div className="">
-        <div className="absolute left-0 w-[100%] md:w-80 p-4 h-screen opacity-50 bg-blend-darken bg-white" onClick={() => {setOpened(!opened)}}></div>
+        <div className="absolute left-0 w-[100%] md:w-80 p-4 h-screen opacity-40 bg-blend-darken bg-black" onClick={() => {setOpened(!opened)}}></div>
         <div className="flex flex-col absolute right-0 w-[60%] md:w-80 p-4 h-screen opacity-100 bg-blend-darken bg-white">
             <span className="font-semibold text-xl mb-3"> Categories</span>
             {categories.map((category) => (

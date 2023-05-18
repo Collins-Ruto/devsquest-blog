@@ -22,6 +22,7 @@ const CategoryPost = ({ posts }) => {
           name="description"
           content="devsquest blogs categories"
         />
+        <meta data-react-helmet="true" name="author" content="Collins Ruto"></meta>
       </Head>
       <div className="container mx-auto px-4 lg:px-8 mb-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
